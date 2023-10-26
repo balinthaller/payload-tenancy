@@ -39,6 +39,7 @@ var upload_1 = require("./hooks/upload");
 var global_1 = require("./hooks/global");
 var overrideFields_1 = require("./utils/overrideFields");
 var transformGlobalCollectionField_1 = require("./utils/transformGlobalCollectionField");
+var transformGlobalField_1 = require("./utils/transformGlobalField");
 var tenancy = function (partialOptions) {
     if (partialOptions === void 0) { partialOptions = {}; }
     return function (config) {
@@ -53,7 +54,7 @@ var tenancy = function (partialOptions) {
                 var _a, _b, _c, _d, _e, _f;
                 return options.sharedGlobals.includes(global.slug)
                     ? global
-                    : __assign(__assign({}, global), { fields: (0, overrideFields_1.overrideFields)(global.fields, [], [
+                    : __assign(__assign({}, global), { fields: (0, overrideFields_1.overrideFields)(global.fields.map(transformGlobalField_1.transformGlobalField), [], [
                             (0, resourceTenant_1.createResourceTenantField)({
                                 options: options,
                                 config: config,
