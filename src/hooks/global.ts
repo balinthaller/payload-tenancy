@@ -9,6 +9,10 @@ import { TenancyOptions } from "../options";
 import { Config } from "payload/config";
 import { PayloadRequest } from "payload/types";
 
+function getGlobalCollection(global: GlobalConfig) {
+  return global.slug + "Globals";
+}
+
 export const createGlobalBeforeReadHook =
   ({
     options,
@@ -54,6 +58,8 @@ export const createGlobalBeforeChangeHook =
 
     if (!doc) {
       doc = await initGlobal({ options, config, global, req, data });
+    } else {
+      doc = await updateGlobal({ global, req, id: doc.id, data });
     }
 
     return {};
@@ -110,7 +116,7 @@ const initGlobal = ({
   data?: Record<string, unknown>;
 }) =>
   req.payload.create({
-    collection: global.slug + "Globals",
+    collection: getGlobalCollection(global),
     data: {
       ...(data ?? {}),
       tenant: extractTenantId({ options, req }),
@@ -130,7 +136,7 @@ const getGlobal = async ({
   const {
     docs: [doc],
   } = await req.payload.find({
-    collection: global.slug + "Globals",
+    collection: getGlobalCollection(global),
     where: {
       tenant: {
         equals: extractTenantId({ options, req }),
@@ -138,5 +144,25 @@ const getGlobal = async ({
     },
     limit: 1,
   });
+  return doc;
+};
+
+const updateGlobal = async ({
+  global,
+  req,
+  id,
+  data,
+}: {
+  global: GlobalConfig;
+  req: PayloadRequest;
+  id: string | number;
+  data?: Record<string, any>;
+}) => {
+  const doc = await req.payload.update({
+    collection: getGlobalCollection(global),
+    id,
+    data,
+  });
+
   return doc;
 };
