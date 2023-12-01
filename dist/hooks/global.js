@@ -48,6 +48,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createGlobalAfterChangeHook = exports.createGlobalBeforeChangeHook = exports.createGlobalBeforeReadHook = void 0;
+function getGlobalCollection(global) {
+    return global.slug + "Globals";
+}
 var createGlobalBeforeReadHook = function (_a) {
     var options = _a.options, config = _a.config, global = _a.global;
     return function (_a) {
@@ -96,8 +99,12 @@ var createGlobalBeforeChangeHook = function (_a) {
                         return [4 /*yield*/, initGlobal({ options: options, config: config, global: global, req: req, data: data })];
                     case 2:
                         doc = _b.sent();
-                        _b.label = 3;
-                    case 3: return [2 /*return*/, {}];
+                        return [3 /*break*/, 5];
+                    case 3: return [4 /*yield*/, updateGlobal({ global: global, req: req, id: doc.id, data: data })];
+                    case 4:
+                        doc = _b.sent();
+                        _b.label = 5;
+                    case 5: return [2 /*return*/, {}];
                 }
             });
         });
@@ -130,7 +137,7 @@ var extractTenantId = function (_a) {
 var initGlobal = function (_a) {
     var options = _a.options, global = _a.global, req = _a.req, data = _a.data;
     return req.payload.create({
-        collection: global.slug + "Globals",
+        collection: getGlobalCollection(global),
         data: __assign(__assign({}, (data !== null && data !== void 0 ? data : {})), { tenant: extractTenantId({ options: options, req: req }) }),
     });
 };
@@ -141,7 +148,7 @@ var getGlobal = function (_a) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, req.payload.find({
-                        collection: global.slug + "Globals",
+                        collection: getGlobalCollection(global),
                         where: {
                             tenant: {
                                 equals: extractTenantId({ options: options, req: req }),
@@ -151,6 +158,24 @@ var getGlobal = function (_a) {
                     })];
                 case 1:
                     doc = (_b.sent()).docs[0];
+                    return [2 /*return*/, doc];
+            }
+        });
+    });
+};
+var updateGlobal = function (_a) {
+    var global = _a.global, req = _a.req, id = _a.id, data = _a.data;
+    return __awaiter(void 0, void 0, void 0, function () {
+        var doc;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, req.payload.update({
+                        collection: getGlobalCollection(global),
+                        id: id,
+                        data: data,
+                    })];
+                case 1:
+                    doc = _b.sent();
                     return [2 /*return*/, doc];
             }
         });

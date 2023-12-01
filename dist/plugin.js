@@ -203,7 +203,8 @@ var tenancy = function (partialOptions) {
                 admin: basePath + ((_e = (_d = config.routes) === null || _d === void 0 ? void 0 : _d.admin) !== null && _e !== void 0 ? _e : "/admin"),
                 api: basePath + ((_g = (_f = config.routes) === null || _f === void 0 ? void 0 : _f.api) !== null && _g !== void 0 ? _g : "/api"),
                 graphQL: basePath + ((_j = (_h = config.routes) === null || _h === void 0 ? void 0 : _h.graphQL) !== null && _j !== void 0 ? _j : "/graphql"),
-                graphQLPlayground: basePath + ((_l = (_k = config.routes) === null || _k === void 0 ? void 0 : _k.graphQLPlayground) !== null && _l !== void 0 ? _l : "/playground"),
+                graphQLPlayground: basePath +
+                    ((_l = (_k = config.routes) === null || _k === void 0 ? void 0 : _k.graphQLPlayground) !== null && _l !== void 0 ? _l : "/graphql-playground"),
             }, onInit: (0, init_1.createInitHook)({ options: options, config: config }) });
     };
 };

@@ -50,9 +50,9 @@ var createResourceReadAccess = function (_a) {
     var options = _a.options, original = _a.original;
     return function (args) { return __awaiter(void 0, void 0, void 0, function () {
         var _a, _b, _c, _d;
-        var _e, _f, _g;
-        return __generator(this, function (_h) {
-            switch (_h.label) {
+        var _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
                 case 0:
                     if (!original) {
                         original = (0, defaultAccess_1.createDefaultAccess)({ options: options, payload: args.req.payload });
@@ -61,7 +61,7 @@ var createResourceReadAccess = function (_a) {
                     _b = limitAccess_1.limitAccess;
                     return [4 /*yield*/, original(args)];
                 case 1:
-                    _a = _b.apply(void 0, [_h.sent(), {
+                    _a = _b.apply(void 0, [_f.sent(), {
                             tenant: {
                                 equals: args.req.tenant.id,
                             },
@@ -75,15 +75,15 @@ var createResourceReadAccess = function (_a) {
                     return [4 /*yield*/, original(args)];
                 case 3:
                     // Limit access to users's tenant.
-                    _c = _d.apply(void 0, [_h.sent(), {
+                    _c = _d.apply(void 0, [_f.sent(), {
                             tenant: {
-                                equals: (_g = (_f = args.req.user.tenant) === null || _f === void 0 ? void 0 : _f.id) !== null && _g !== void 0 ? _g : args.req.user.tenant.id,
+                                equals: args.req.user.tenant.id,
                             },
                         }]);
-                    _h.label = 4;
+                    _f.label = 4;
                 case 4:
                     _a = _c;
-                    _h.label = 5;
+                    _f.label = 5;
                 case 5: return [2 /*return*/, _a];
             }
         });
