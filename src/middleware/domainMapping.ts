@@ -21,7 +21,9 @@ export const createDomainMapping =
   }): Handler =>
   async (req: RequestWithTenant, res, next) => {
     // Check that tenant exists and attach it to the request.
+    console.log("HOSTNAME", req.hostname);
     const hostnameSegments = req.hostname.split(".");
+    console.log("SEGMENTS", hostnameSegments);
     if (hostnameSegments.length < 3) {
       res.status(404).send();
       return;

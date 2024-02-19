@@ -50,7 +50,10 @@ var createDomainMapping = function (_a) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
+                    // Check that tenant exists and attach it to the request.
+                    console.log("HOSTNAME", req.hostname);
                     hostnameSegments = req.hostname.split(".");
+                    console.log("SEGMENTS", hostnameSegments);
                     if (hostnameSegments.length < 3) {
                         res.status(404).send();
                         return [2 /*return*/];
