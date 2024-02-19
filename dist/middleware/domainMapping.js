@@ -46,18 +46,22 @@ exports.createDomainMapping = void 0;
 var createDomainMapping = function (_a) {
     var options = _a.options, payload = _a.payload;
     return function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a;
+        var hostnameSegments, tenantSlug, _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    // Check that tenant exists and attach it to the request.
+                    hostnameSegments = req.hostname.split(".");
+                    if (hostnameSegments.length < 3) {
+                        res.status(404).send();
+                        return [2 /*return*/];
+                    }
+                    tenantSlug = hostnameSegments[0];
                     _a = req;
                     return [4 /*yield*/, payload.find({
                             collection: options.tenantCollection,
-                            where: { "domains.domain": { equals: req.hostname } },
+                            where: { slug: { equals: tenantSlug } },
                         })];
                 case 1:
-                    // Check that tenant exists and attach it to the request.
                     _a.tenant = (_b.sent()).docs[0];
                     if (!req.tenant) {
                         res.status(404).send();

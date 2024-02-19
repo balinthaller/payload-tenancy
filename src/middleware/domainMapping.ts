@@ -21,10 +21,16 @@ export const createDomainMapping =
   }): Handler =>
   async (req: RequestWithTenant, res, next) => {
     // Check that tenant exists and attach it to the request.
+    const hostnameSegments = req.hostname.split(".");
+    if (hostnameSegments.length < 3) {
+      res.status(404).send();
+      return;
+    }
+    const tenantSlug = hostnameSegments[0];
     req.tenant = (
       await payload.find({
         collection: options.tenantCollection,
-        where: { "domains.domain": { equals: req.hostname } },
+        where: { slug: { equals: tenantSlug } },
       })
     ).docs[0];
     if (!req.tenant) {
